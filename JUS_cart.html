@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Just A Slice</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+  </head>
+
+  <body>
+
+   <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top" style="background-color:red;">
+      <div class="container">
+        <a class="navbar-brand" href="JUS_home.html" style="font-family:script;">Just A Slice</a> <!--REDIRECTS TO SELF not to index.html which is not the main -->
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+
+            <li class="nav-item active">
+              <a class="nav-link" href="JUS_home.html">Menu</a> <!-- place holders-->
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="JUS_create.html">Create Your Own</a> <!-- place holders-->
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="JUS_rate.html">Rate</a> <!-- place holders-->
+            </li>
+
+            <li class="nav-item">
+              <a class="nav-link" href="JUS_cart.html">Cart</a> <!-- place holders-->
+            </li>
+
+             <li class="nav-item">
+              <a class="nav-link" href="index.html">Return to Pizzable</a>
+            </li>
+
+          
+            <!--LOGIN NAV BAR -->
+            <li class="nav-item">
+              <a class="nav-link" onclick="document.getElementById('id01').style.display='block'" style="width:auto;">Login </a>
+
+              <div id="id01" class="modal">
+                
+                <form class="modal-content animate" action="/action_page.php">
+                  <div class="imgcontainer">
+                    <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+                  </div>
+
+                  <div class="loginContainer">
+                    <label for="lgin"><b><h1> Login </h1> </b></label> <br>
+                    <label for="uname"><b>Username</b></label>
+                    <input type="text" placeholder="Enter Username" name="uname" required>
+
+                    <label for="psw"><b>Password</b></label>
+                    <input type="password" placeholder="Enter Password" name="psw" required>
+                      
+                    <button type="submit">Login</button>
+                    <label>
+                      <input type="checkbox" checked="checked" name="remember"> Remember me
+                    </label>
+                  </div>
+
+                  <div class="loginContainer" style="background-color:#f1f1f1">
+                    <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+                    <span class="psw">Forgot <a href="#">password?</a></span>
+                  </div>
+
+                </form>
+              </div>
+
+              <script>
+              // Get the modal
+              var modal = document.getElementById('id01');
+
+              // When the user clicks anywhere outside of the modal, close it
+              window.onclick = function(event) {
+                  if (event.target == modal) {
+                      modal.style.display = "none";
+                  }
+              }
+              </script>
+            </li>
+
+
+            <li class="nav-item">
+              <a class="nav-link" href="JUS_register.html">SignUp</a> <!-- place holders-->
+            </li>
+
+
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+
+
+    <!-- Page Content -->
+    <div class="container">
+
+      <!-- Page Heading/Breadcrumbs -->
+      <h1 class="mt-4 mb-3">Cart 
+      </h1>
+
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+          <a href="index.html">Home</a>
+        </li>
+        <li class="breadcrumb-item active">Full Width</li>
+      </ol>
+
+      <p>Most of Start Bootstrap's unstyled templates can be directly integrated into the Modern Business template. You can view all of our unstyled templates on our website at
+        <a href="http://startbootstrap.com/template-categories/unstyled">http://startbootstrap.com/template-categories/unstyled</a>.</p>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- Footer -->
+     <footer class="py-5 bg-red" style="background-color:red;">
+      <div class="container">
+        <!-- <p class="m-0 text-center text-white">Copyright &copy; F.R.A.K IT</p> -->
+      </div>
+      <!-- /.container -->
+    </footer>
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  </body>
+
+</html>

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pizzable</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/modern-business.css" rel="stylesheet">
+
+
+
+
+
+
+
+     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      <script>
+      $(document).ready(function(){
+          // type_holder
+          // <div><label><input type="checkbox" class="types" value="mosque" />Mosque</label></div>
+
+          var types = ['restaurant','pizza'];
+          var html = '';
+
+          $.each(types, function( index, value ) {
+              var name = value.replace(/_/g, " ");
+              html += '<div><label><input type="checkbox" class="types" value="'+ value +'" />'+ capitalizeFirstLetter(name) +'</label></div>';
+          });
+
+          $('#type_holder').html(html);
+      });
+
+      function capitalizeFirstLetter(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
+      var map;
+      var infowindow;
+      var autocomplete;
+      var countryRestrict = {'country': 'in'};
+      var selectedTypes = [];
+
+      function initialize()
+      {
+          autocomplete = new google.maps.places.Autocomplete((document.getElementById('address')), {
+              types: ['(regions)'],
+             // componentRestrictions: countryRestrict
+          });
+
+          var pyrmont = new google.maps.LatLng(40.758896, -73.985130);
+
+          map = new google.maps.Map(document.getElementById('map'), {
+              center: pyrmont,
+              zoom: 13
+          });
+      }
+
+      function renderMap()
+      {
+          // Get the user defined values
+          var address = document.getElementById('address').value;
+          var radius  = parseInt(document.getElementById('radius').value) * 1000;
+          
+          // get the selected type
+          selectedTypes = [];
+          $('.types').each(function(){
+              if($(this).is(':checked'))
+              {
+                  selectedTypes.push($(this).val());
+              }
+          });
+
+          var geocoder    = new google.maps.Geocoder();
+          var selLocLat   = 0;
+          var selLocLng   = 0;
+
+          geocoder.geocode({'address': address}, function(results, status) {
+              if (status === 'OK')
+              {
+                  //console.log(results[0].geometry.location.lat() + ' - ' + results[0].geometry.location.lng());
+
+                  selLocLat   = results[0].geometry.location.lat();
+                  selLocLng   = results[0].geometry.location.lng();
+
+                  //var pyrmont = new google.maps.LatLng(52.5666644, 4.7333304);
+
+                  var pyrmont = new google.maps.LatLng(selLocLat, selLocLng);
+
+                  map = new google.maps.Map(document.getElementById('map'), {
+                      center: pyrmont,
+                      zoom: 13
+                  });
+
+                  //console.log(selectedTypes);
+
+                  var request = {
+                      location: pyrmont,
+                      //radius: 5000,
+                      //types: ["atm"]
+                      radius: radius,
+                      types: selectedTypes
+                  };
+
+                  infowindow = new google.maps.InfoWindow();
+
+                  var service = new google.maps.places.PlacesService(map);
+                  service.nearbySearch(request, callback);
+              }
+              else
+              {
+                  alert('Geocode was not successful for the following reason: ' + status);
+              }
+          });
+      }
+
+      function callback(results, status)
+      {
+          if (status == google.maps.places.PlacesServiceStatus.OK)
+          {
+              for (var i = 0; i < results.length; i++)
+              {
+                  createMarker(results[i], results[i].icon);
+              }
+          }
+      }
+
+      function createMarker(place, icon) {
+          var placeLoc = place.geometry.location;
+
+          var marker = new google.maps.Marker({
+              map: map,
+              position: place.geometry.location,
+              icon: {
+                  url: icon,
+                  scaledSize: new google.maps.Size(20, 20) // pixels
+              },
+              animation: google.maps.Animation.DROP
+          });
+          
+
+
+          google.maps.event.addListener(marker, 'click', function() {
+              //infowindow.setContent(place.name+ '<br>' +place.vicinity);
+              infowindow.setContent('<a href="JUS_home.html">Just A Slice</a>')
+
+              infowindow.open(map, this); 
+            
+
+          });
+      }
+      </script>
+
+
+
+
+
+    
+
+  </head>
+
+
+
+
+  <body>
+
+    <!-- Navigation -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark fixed-top" style="background-color:tomato;">
+      <div class="container">
+        <a class="navbar-brand" href="index.html">Pizzable</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!--
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="about.html">About</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="services.html">Services</a>
+            </li>
+            <li class="nav-item active">
+              <a class="nav-link" href="contact.html">Contact</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Portfolio
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+                <a class="dropdown-item" href="portfolio-1-col.html">1 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-2-col.html">2 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-3-col.html">3 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-4-col.html">4 Column Portfolio</a>
+                <a class="dropdown-item" href="portfolio-item.html">Single Portfolio Item</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Blog
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="blog-home-1.html">Blog Home 1</a>
+                <a class="dropdown-item" href="blog-home-2.html">Blog Home 2</a>
+                <a class="dropdown-item" href="blog-post.html">Blog Post</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Other Pages
+              </a>
+              <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownBlog">
+                <a class="dropdown-item" href="full-width.html">Full Width Page</a>
+                <a class="dropdown-item" href="sidebar.html">Sidebar Page</a>
+                <a class="dropdown-item" href="faq.html">FAQ</a>
+                <a class="dropdown-item" href="404.html">404</a>
+                <a class="dropdown-item" href="pricing.html">Pricing Table</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      -->
+      </div>
+    </nav>
+
+
+    
+
+
+    <!-- Page Heading/Breadcrumbs -->
+    <h1 class="mt-4 mb-3" align="center">Welcome to Pizzable</h1>
+    <h3 align="center"><i>Where anything is Pizzable</h3> 
+
+
+
+
+
+  <div style="float: right;">
+      <div id="map" style="width:800px; height:600px;">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCU6bsx-PLT5fW02T5GeiwA8cOOY7l2rU4&libraries=places&callback=initialize" async defer></script>
+        <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+      </div>
+    </div>
+
+    <div style="float: right; width: 400; margin-right: 100px;">
+        <form name="frm_map" id="frm_map">
+            <table>
+                <tr>
+                    <th>Address</th>
+                    <td>
+                        <input type="text" name="address" id="address" value="Midtown, Manhathan">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Radius</th>
+                    <td>
+                        <input type="text" name="radius" id="radius" value="5" placeholder="In KM">
+                    </td>
+                </tr>
+                <tr>
+                    <th>FOOD <!-- Types (initiially) --></th>
+                    <td>
+                        <div id="type_holder" style="height: 100px; overflow-y: scroll;">
+                            <!-- Dynamic Content -->    
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="button" value="Show" id="submit" onclick="renderMap();">
+                        <input type="reset" value="Reset">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+    <div style="clear:right"></div>
+
+    <!-- Footer -->
+    <footer class="py-5 bg-tomato" style="background-color:tomato;">
+      <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; F.R.A.K IT</p>
+      </div>
+      <!-- /.container -->
+    </footer>
+
+  
+
+    <!-- Bootstrap core JavaScript -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Contact form JavaScript -->
+    <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+    <script src="js/jqBootstrapValidation.js"></script>
+    <script src="js/contact_me.js"></script>
+
+
+
+  </body>
+
+</html>
